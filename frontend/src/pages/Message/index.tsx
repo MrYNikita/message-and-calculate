@@ -4,7 +4,7 @@ import LayoutMain from "../../UI/Layouts/Main";
 const PageMessage = () => {
 
     return (
-        <LayoutMain/>
+        <LayoutMain chapter="Message"/>
     );
 
 };
