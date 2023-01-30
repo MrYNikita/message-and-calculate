@@ -1,7 +1,9 @@
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
+import GlobalStyle from './styles/style';
 import { BrowserRouter } from 'react-router-dom';
+
+import './index.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,6 +11,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <>
+        <GlobalStyle/>
         <BrowserRouter>
             <App/>
         </BrowserRouter>
