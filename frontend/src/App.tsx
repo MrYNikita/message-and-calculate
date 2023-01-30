@@ -1,9 +1,9 @@
 import './App.css';
+import PageMessage from './pages/Message';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <PageMessage/>
   );
 }
 
