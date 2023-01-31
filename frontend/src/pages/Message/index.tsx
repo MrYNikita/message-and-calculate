@@ -1,27 +1,35 @@
 import * as SC from './style';
 import LayoutMain from "../../UI/Layouts/Main";
 import Message from '../../components/Message';
-import { useEffect, useState } from 'react';
+import React, { FormEventHandler, useEffect, useState } from 'react';
 
 
-const PageMessage = ({}) => {
+const PageMessage = ({ }) => {
 
     const [messages, setMessages] = useState<{ text: string, author?: string }[]>([]);
 
     useEffect(() => {
 
-        const res = fetch('http://127.0.0.1:8000/message', {
+        try {
 
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
+            const res = fetch('http://127.0.0.1:8000/message', {
 
-        }).then(res => res.json()).then(result => {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
 
-            setMessages(result);
+            }).then(res => res.json()).then(result => {
 
-        });
+                setMessages(result);
+
+            });
+
+        } catch (e) {
+
+
+
+        };
 
     }, []);
 
@@ -30,8 +38,24 @@ const PageMessage = ({}) => {
             <SC.Chat>
                 {messages.map((m, mi) => <Message key={mi} {...m}></Message>)}
             </SC.Chat>
-            <SC.Form>
-                <SC.Input placeholder='Введите новое сообщение'></SC.Input>
+            <SC.Form onSubmit={async (e: any) => {
+
+                if (e.currentTarget.elements?.message) {
+
+                    await fetch('http://127.0.0.1:8000/message', {
+
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ author: 'guest', text: e.currentTarget.elements.message.value }),
+
+                    });
+
+                };
+
+            }}>
+                <SC.Input name='message' placeholder='Введите новое сообщение'></SC.Input>
                 <SC.Button>Отправить</SC.Button>
             </SC.Form>
         </LayoutMain>
