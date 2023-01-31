@@ -9,18 +9,20 @@ app.use(express.json());
 
 app.get('/calculate', (req, res) => {
 
-
+    res.json(JSON.parse(readFileSync('./json/calculate.json', 'utf8')));
 
 });
 app.get('/message', (req, res) => {
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.json(JSON.parse(readFileSync('./json/message.json', 'utf8')));
 
 });
 app.post('/calculate', (req, res) => {
 
+    writeFileSync('./json/calculate.json', JSON.stringify(req.body));
 
+    res.statusCode = 200;
+    res.end();
 
 });
 app.post('/message', (req, res) => {

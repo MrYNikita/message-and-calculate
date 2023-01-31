@@ -55,8 +55,10 @@ const PageMessage = ({ }) => {
                 };
 
             }}>
-                <SC.Input name='message' placeholder='Введите новое сообщение'></SC.Input>
-                <SC.Button>Отправить</SC.Button>
+                <SC.Panel>
+                    <SC.Input name='message' placeholder='Введите новое сообщение'></SC.Input>
+                    <SC.Button>Отправить</SC.Button>
+                </SC.Panel>
             </SC.Form>
         </LayoutMain>
     );

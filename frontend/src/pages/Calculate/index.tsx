@@ -1,8 +1,10 @@
 import * as SC from './style';
 import LayoutMain from "../../UI/Layouts/Main";
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 const PageCalculate = () => {
+
+    const numberLast = useRef<null | number>(null);
 
     const [opers, setOpers] = useState<[number, number, number][]>([]);
 
@@ -12,12 +14,33 @@ const PageCalculate = () => {
     const negative = useRef(false);
     const [fractional, setFractional] = useState(false);
 
+    useEffect(() => {
+
+        fetch('http://127.0.0.1:8000/calculate', {
+
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+        }).then(res => res.json()).then((result: { numberLast: number }) => {
+
+            if (result.numberLast) {
+
+                numberLast.current = result.numberLast;
+
+            };
+
+        });
+
+    }, []);
+
     return (
         <LayoutMain chapter="Calculate">
             <SC.Form>
 
                 <SC.WrapperNumber>
-                    <input type='number' value={real ? real : ''} placeholder='Целая часть' onChange={e => {
+                    <input type='number' value={real || real === 0 ? real : ''} placeholder='Целая часть' onChange={e => {
 
                         let number = Math.abs(parseInt(e.target.value));
 
@@ -57,7 +80,7 @@ const PageCalculate = () => {
                     <legend>Выберите свойства числа:</legend>
                     <div>
                         <div>
-                            <input type='checkbox' value={real ? real : ''} onChange={_ => {
+                            <input type='checkbox' onChange={_ => {
 
                                 negative.current = !negative.current;
 
@@ -95,9 +118,21 @@ const PageCalculate = () => {
 
                     if (number) {
 
-                        const last = opers.at(-1)?.[1] ?? number;
+                        const last = opers.at(-1)?.[1] ?? numberLast.current ?? number;
 
                         setOpers([...opers, [last, number, (number + last) / 2]]);
+
+                        numberLast.current = number;
+
+                        fetch('http://127.0.0.1:8000/calculate', {
+
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ numberLast: numberLast.current, }),
+
+                        });
 
                     };
 
