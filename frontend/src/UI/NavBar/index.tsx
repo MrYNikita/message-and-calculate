@@ -6,6 +6,7 @@ const NavBar = () => {
         <SC.NavBar>
             <SC.NavLink href='/'>Сообщения</SC.NavLink>
             <SC.NavLink href='/calculate'>Рассчет</SC.NavLink>
+            <SC.NavLink href='https://github.com/MrYNikita/message-and-calculate'>Репозиторий</SC.NavLink>
         </SC.NavBar>
     );
 
