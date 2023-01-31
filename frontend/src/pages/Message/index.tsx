@@ -12,6 +12,7 @@ const PageMessage = ({}) => {
             </SC.Chat>
             <SC.Form>
                 <SC.Input placeholder='Введите новое сообщение'></SC.Input>
+                <SC.Button>Отправить</SC.Button>
             </SC.Form>
         </LayoutMain>
     );
